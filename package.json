@@ -1,0 +1,62 @@
+{
+  "name": "@skills-hub-ai/mcp",
+  "version": "0.1.11",
+  "description": "MCP server for skills-hub.ai — serve installed skills as prompts in any MCP-compatible AI tool",
+  "license": "MIT",
+  "mcpName": "io.github.tinh2/skills-hub",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "claude-code",
+    "claude-desktop",
+    "claude-skills",
+    "agent-skills",
+    "skill-md",
+    "ai-skills",
+    "cursor",
+    "cline",
+    "continue",
+    "ai-prompts",
+    "developer-tools",
+    "anthropic",
+    "ai-search",
+    "skill-registry",
+    "skills-hub"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinh2/skills-hub-mcp.git"
+  },
+  "homepage": "https://skills-hub.ai",
+  "files": [
+    "dist",
+    "src",
+    "!src/**/*.test.ts"
+  ],
+  "type": "module",
+  "bin": {
+    "skills-hub-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "test": "vitest run --passWithNoTests",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@skills-hub-ai/skill-installer": "0.1.0",
+    "@skills-hub-ai/skill-parser": "0.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsx": "^4.23.12",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.11"
+  },
+  "bugs": {
+    "url": "https://github.com/tinh2/skills-hub-mcp/issues"
+  }
+}
