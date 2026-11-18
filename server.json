@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.tinh2/skills-hub",
   "description": "Search & install 13,000+ AI agent skills from skills-hub.ai inside any MCP tool.",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "websiteUrl": "https://skills-hub.ai",
   "repository": {
     "url": "https://github.com/tinh2/skills-hub-mcp",
@@ -13,7 +13,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@skills-hub-ai/mcp",
-      "version": "0.1.12",
+      "version": "0.1.13",
       "transport": {
         "type": "stdio"
       }

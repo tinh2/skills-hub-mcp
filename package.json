@@ -1,6 +1,6 @@
 {
   "name": "@skills-hub-ai/mcp",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "MCP server for skills-hub.ai — serve installed skills as prompts in any MCP-compatible AI tool",
   "license": "MIT",
   "mcpName": "io.github.tinh2/skills-hub",

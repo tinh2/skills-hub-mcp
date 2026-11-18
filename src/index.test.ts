@@ -259,12 +259,18 @@ describe("MCP server", () => {
 
   it("listTools returns all four tools", async () => {
     const handler = handlers.get("tools/list")!;
-    const result = (await handler({})) as { tools: Array<{ name: string }> };
+    const result = (await handler({})) as {
+      tools: Array<{ name: string; description: string }>;
+    };
 
     const names = result.tools.map((t) => t.name);
     expect(names).toContain("search_skills");
     expect(names).toContain("get_skill_detail");
     expect(names).toContain("install_skill");
+    const desc = (n: string) =>
+      result.tools.find((t) => t.name === n)?.description;
+    expect(desc("search_skills")).toContain("`url`");
+    expect(desc("get_skill_detail")).toContain("`url`");
     expect(names).toContain("list_installed_skills");
     expect(result.tools).toHaveLength(4);
   });
@@ -299,6 +305,7 @@ describe("MCP server", () => {
     const parsed = JSON.parse(result.content[0].text);
     expect(parsed).toHaveLength(1);
     expect(parsed[0].slug).toBe("review-code");
+    expect(parsed[0].url).toBe("https://skills-hub.ai/skills/review-code");
   });
 
   it("search_skills passes organization parameter to searchSkills", async () => {
@@ -354,6 +361,7 @@ describe("MCP server", () => {
     const parsed = JSON.parse(result.content[0].text);
     expect(parsed.slug).toBe("review-code");
     expect(parsed.instructionsPreview).toContain("Review all code");
+    expect(parsed.url).toBe("https://skills-hub.ai/skills/review-code");
   });
 
   it("install_skill tool calls installer and returns result", async () => {
@@ -361,7 +369,9 @@ describe("MCP server", () => {
       slug: "review-code",
       version: "1.2.0",
       path: "/home/.claude/skills/review-code",
+      url: "https://skills-hub.ai/skills/review-code",
       dependencies: [],
+      dependencyUrls: [],
     });
 
     const handler = handlers.get("tools/call")!;
@@ -373,6 +383,7 @@ describe("MCP server", () => {
     const parsed = JSON.parse(result.content[0].text);
     expect(parsed.slug).toBe("review-code");
     expect(parsed.version).toBe("1.2.0");
+    expect(parsed.url).toBe("https://skills-hub.ai/skills/review-code");
   });
 
   it("list_installed_skills returns discovered skills", async () => {

@@ -70,6 +70,8 @@ describe("installSkill", () => {
     expect(result.slug).toBe("review-code");
     expect(result.version).toBe("1.2.0");
     expect(result.dependencies).toEqual([]);
+    expect(result.url).toBe("https://skills-hub.ai/skills/review-code");
+    expect(result.dependencyUrls).toEqual([]);
     // Records the install so it counts toward installCount + MCP analytics.
     expect(mockRecordInstall).toHaveBeenCalledWith(
       "review-code",
@@ -156,6 +158,10 @@ describe("installSkill", () => {
     const result = await installSkill("full-review");
 
     expect(result.dependencies).toEqual(["lint-check", "test-coverage"]);
+    expect(result.dependencyUrls).toEqual([
+      "https://skills-hub.ai/skills/lint-check",
+      "https://skills-hub.ai/skills/test-coverage",
+    ]);
     // Parent + 2 children = 3 SKILL.md + 3 command files = 6 writes
     expect(mockWriteFileSync).toHaveBeenCalledTimes(6);
   });

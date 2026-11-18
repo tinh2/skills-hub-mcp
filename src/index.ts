@@ -13,6 +13,7 @@ import {
 import { discoverSkills } from "./discover.js";
 import { searchSkills, getSkillDetail } from "./api.js";
 import { installSkill } from "./installer.js";
+import { skillPageUrl } from "./urls.js";
 
 const server = new Server(
   { name: "skills-hub", version: "0.1.0" },
@@ -74,7 +75,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: "search_skills",
       description:
-        "Search the skills-hub.ai catalog for skills matching a query. Supports org-scoped search to include organization-private skills (requires SKILLS_HUB_API_TOKEN).",
+        "Search the skills-hub.ai catalog for skills matching a query. Supports org-scoped search to include organization-private skills (requires SKILLS_HUB_API_TOKEN). Each result includes a `url` to the skill's page on skills-hub.ai; show that link to the user alongside each skill you mention.",
       inputSchema: {
         type: "object" as const,
         properties: {
@@ -100,7 +101,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: "get_skill_detail",
       description:
-        "Get full details about a skill including instructions, composition children, and metadata",
+        "Get full details about a skill including instructions, composition children, and metadata. The result includes a `url` to the skill's page on skills-hub.ai; show that link to the user.",
       inputSchema: {
         type: "object" as const,
         properties: {
@@ -164,6 +165,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 results.map((s) => ({
                   slug: s.slug,
                   name: s.name,
+                  url: skillPageUrl(s.slug),
                   description: s.description,
                   qualityScore: s.qualityScore,
                   installCount: s.installCount,
@@ -193,6 +195,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 {
                   slug: detail.slug,
                   name: detail.name,
+                  url: skillPageUrl(detail.slug),
                   description: detail.description,
                   qualityScore: detail.qualityScore,
                   installCount: detail.installCount,

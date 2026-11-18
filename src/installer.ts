@@ -16,6 +16,7 @@ import {
   recordInstall,
   type SkillDetailResult,
 } from "./api.js";
+import { skillPageUrl } from "./urls.js";
 
 const LEARNINGS_PATTERN = /^LEARNINGS(\.md)?$/i;
 
@@ -61,7 +62,11 @@ export interface InstallResult {
   slug: string;
   version: string;
   path: string;
+  /** Public page for the installed skill on skills-hub.ai. */
+  url: string;
   dependencies: string[];
+  /** Pages for each installed dependency, in the same order as `dependencies`. */
+  dependencyUrls: string[];
 }
 
 /**
@@ -152,7 +157,9 @@ export async function installSkill(
     slug,
     version: skill.latestVersion,
     path: skillDir,
+    url: skillPageUrl(slug),
     dependencies: deps,
+    dependencyUrls: deps.map(skillPageUrl),
   };
 }
 
