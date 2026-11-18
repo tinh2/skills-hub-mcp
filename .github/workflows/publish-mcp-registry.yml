@@ -1,0 +1,46 @@
+name: Publish MCP Registry
+
+# Publishes server.json to the official MCP Registry, which fans out to
+# the GitHub MCP Registry (-> VS Code / Copilot) and the crawlers behind
+# PulseMCP / Glama / Smithery. Auth is GitHub Actions OIDC — no interactive
+# login — and OIDC proves the io.github.tinh2/* namespace automatically.
+#
+# Trigger manually (Actions tab -> Run workflow) or by pushing an `mcp-v*` tag.
+# Bump `version` in server.json to match the published npm version
+# before publishing.
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["mcp-v*"]
+
+concurrency:
+  group: publish-mcp-registry
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # required for OIDC authentication
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install mcp-publisher
+        working-directory: .
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+
+      - name: Validate server.json
+        working-directory: .
+        run: ./mcp-publisher validate server.json
+
+      - name: Authenticate (GitHub OIDC)
+        working-directory: .
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish to MCP Registry
+        working-directory: .
+        run: ./mcp-publisher publish
