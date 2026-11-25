@@ -1,6 +1,7 @@
 # @skills-hub-ai/mcp
 
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/tinh2/skills-hub-mcp)
+[![tinh2/skills-hub-mcp MCP server](https://glama.ai/mcp/servers/tinh2/skills-hub-mcp/badges/score.svg)](https://glama.ai/mcp/servers/tinh2/skills-hub-mcp)
 
 MCP server for [skills-hub.ai](https://skills-hub.ai) — serve your installed skills as prompts in Claude Code, Cursor, or any MCP-compatible tool.
 
